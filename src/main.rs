@@ -25,7 +25,7 @@ use ratatui::{
 mod app;
 mod ui;
 use crate::{
-    app::{App, CurrentScreen, CurrentlyEditing},
+    app::{App, CurrentScreen, ProjectTypes},
     ui::ui,
 };
 
@@ -58,8 +58,40 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
         terminal.draw(|f| ui(f, app))?;
 
         if let Event::Key(key) = event::read()? {
+            if key.kind == event::KeyEventKind::Release {
+                continue;
+            }
+
             if key.code == KeyCode::Char('q') {
                 return Ok(false);
+            }
+
+            match app.current_screen {
+                CurrentScreen::Main => {
+                    if key.code == KeyCode::Char('e') {
+                        app.current_screen = CurrentScreen::SelectProjectType;
+                    }
+                }
+                CurrentScreen::SelectProjectType => {
+                    if key.code == KeyCode::Up {
+                        match app.project_type {
+                            ProjectTypes::Python => app.project_type = ProjectTypes::CmakeCpp,
+                            ProjectTypes::UvPython => app.project_type = ProjectTypes::Python,
+                            ProjectTypes::Rust => app.project_type = ProjectTypes::UvPython,
+                            ProjectTypes::CmakeCpp => app.project_type = ProjectTypes::Rust,
+                        }
+                    }
+
+                    if key.code == KeyCode::Down {
+                        match app.project_type {
+                            ProjectTypes::Python => app.project_type = ProjectTypes::UvPython,
+                            ProjectTypes::UvPython => app.project_type = ProjectTypes::Rust,
+                            ProjectTypes::Rust => app.project_type = ProjectTypes::CmakeCpp,
+                            ProjectTypes::CmakeCpp => app.project_type = ProjectTypes::Python,
+                        }
+                    }
+                }
+                _ => todo!("Impliment other screens"),
             }
         }
     }

@@ -6,7 +6,7 @@ use ratatui::{
     widgets::{Block, Borders, Clear, List, ListItem, Paragraph, Wrap},
 };
 
-use crate::app::{App, CurrentScreen, CurrentlyEditing, ProjectTypes};
+use crate::app::{App, CurrentScreen, ProjectTypes};
 
 /*
 pub enum CurrentScreen {
@@ -81,14 +81,82 @@ pub fn ui(frame: &mut Frame, app: &App) {
     frame.render_widget(mode_footer, footer_chunks[0]);
     frame.render_widget(key_notes_footer, footer_chunks[1]);
     
-    if app.current_screen == CurrentScreen::Main {
-        let main_area = centred_rect(50, 10, frame.area());
-        let main_text = Span::styled("Press 'e' to create a new project", Style::default().fg(Color::White));
-        let main_paragraph = Paragraph::new(Line::from(main_text))
-            .alignment(ratatui::layout::Alignment::Center)
-            .block(Block::default().borders(Borders::NONE));
-        frame.render_widget(main_paragraph, main_area);
+    match app.current_screen {
+        CurrentScreen::Main => {
+            let main_area = centred_rect(50, 10, frame.area());
+            let main_text = Span::styled("Press 'e' to create a new project", Style::default().fg(Color::White));
+            let main_paragraph = Paragraph::new(Line::from(main_text))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::NONE));
+            frame.render_widget(main_paragraph, main_area);
+        }
+        CurrentScreen::SelectProjectType => {
+            let project_type_area = centred_rect(10, 50, chunks[0]);
+            let project_type_chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints([
+                    Constraint::Length(3),
+                    Constraint::Length(3),
+                    Constraint::Length(3),
+                    Constraint::Length(3),
+                ])
+                .split(project_type_area);
+
+            let python_text = Paragraph::new(Span::styled(
+                "Python",
+                Style::default().fg(Color::White)
+            ))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::ALL))
+                .style(if app.project_type == ProjectTypes::Python {
+                    Style::default().bg(Color::Blue)
+                } else {
+                    Style::default()
+                });
+            let uv_python_text = Paragraph::new(Span::styled(
+                "Python with UV",
+                Style::default().fg(Color::White)
+            ))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::ALL))
+                .style(if app.project_type == ProjectTypes::UvPython {
+                    Style::default().bg(Color::Blue)
+                } else {
+                    Style::default()
+                });
+            let rust_text = Paragraph::new(Span::styled(
+                "Rust",
+                Style::default().fg(Color::White)
+            ))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::ALL))
+                .style(if app.project_type == ProjectTypes::Rust {
+                    Style::default().bg(Color::Blue)
+                } else {
+                    Style::default()
+                });
+            let cmake_cpp_text = Paragraph::new(Span::styled(
+                "C++ with CMake",
+                Style::default().fg(Color::White)
+            ))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::ALL))
+                .style(if app.project_type == ProjectTypes::CmakeCpp {
+                    Style::default().bg(Color::Blue)
+                } else {
+                    Style::default()
+                });
+
+            // Render text widgets normally
+            frame.render_widget(python_text, project_type_chunks[0]);
+            frame.render_widget(uv_python_text, project_type_chunks[1]);
+            frame.render_widget(rust_text, project_type_chunks[2]);
+            frame.render_widget(cmake_cpp_text, project_type_chunks[3]);
+        }
+        _ => todo!("Impliment other UI screens"),
     }
+
+
 }
 
 fn centred_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
