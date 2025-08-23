@@ -45,8 +45,8 @@ pub fn ui(frame: &mut Frame, app: &App) {
         match app.current_screen {
             CurrentScreen::Main => Span::styled("No Projects", Style::default().fg(Color::Red)),
             CurrentScreen::SelectProjectType => Span::styled("Select Project", Style::default().fg(Color::Blue)),
-            CurrentScreen::SelectProjectName => Span::styled("Select Name", Style::default().fg(Color::Black)),
-            CurrentScreen::SelectProjectFolder => Span::styled("Select Folder", Style::default().fg(Color::Black)),
+            CurrentScreen::SelectProjectName => Span::styled("Select Name", Style::default().fg(Color::Blue)),
+            CurrentScreen::SelectProjectFolder => Span::styled("Select Folder", Style::default().fg(Color::Blue)),
             CurrentScreen::CreateProject => Span::styled("Confirm Project", Style::default().fg(Color::Red)),
             CurrentScreen::ProjectCreated => Span::styled("Project Created", Style::default().fg(Color::Red)),
         }
@@ -62,10 +62,12 @@ pub fn ui(frame: &mut Frame, app: &App) {
             CurrentScreen::Main => Span::styled(
                 "(q) quit / (e) create new project",
                 Style::default().fg(Color::LightBlue)),
+            CurrentScreen::SelectProjectName => Span::styled(
+                "(enter) continue",
+                Style::default().fg(Color::LightBlue)),
             _ => Span::styled(
                 "(q) quit / (enter) continue",
                 Style::default().fg(Color::LightBlue)),
-
         }
     };
 
@@ -152,6 +154,56 @@ pub fn ui(frame: &mut Frame, app: &App) {
             frame.render_widget(uv_python_text, project_type_chunks[1]);
             frame.render_widget(rust_text, project_type_chunks[2]);
             frame.render_widget(cmake_cpp_text, project_type_chunks[3]);
+        }
+        CurrentScreen::SelectProjectName => {
+            let main_area = centred_rect(40, 15, chunks[0]);
+            let main_chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints([
+                    Constraint::Length(3), // Label area
+                    Constraint::Length(5), // Input area
+                ])
+                .split(main_area);
+
+            // Label
+            let label_text = Span::styled("Project Name", Style::default().fg(Color::White));
+            let label_paragraph = Paragraph::new(Line::from(label_text))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::NONE));
+            frame.render_widget(label_paragraph, main_chunks[0]);
+
+            // Input box
+            let text_input_paragraph = Paragraph::new(Span::styled(
+                app.text_input.clone(),
+                Style::default().fg(Color::White)
+            ))
+                .block(Block::default().borders(Borders::ALL));
+            frame.render_widget(text_input_paragraph, main_chunks[1]);
+        }
+        CurrentScreen::SelectProjectFolder => {
+            let main_area = centred_rect(40, 15, chunks[0]);
+            let main_chunks = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints([
+                    Constraint::Length(3), // Label area
+                    Constraint::Length(5), // Input area
+                ])
+                .split(main_area);
+
+            // Label
+            let label_text = Span::styled("Project Folder Name", Style::default().fg(Color::White));
+            let label_paragraph = Paragraph::new(Line::from(label_text))
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::NONE));
+            frame.render_widget(label_paragraph, main_chunks[0]);
+
+            // Input box
+            let text_input_paragraph = Paragraph::new(Span::styled(
+                app.text_input.clone(),
+                Style::default().fg(Color::White)
+            ))
+                .block(Block::default().borders(Borders::ALL));
+            frame.render_widget(text_input_paragraph, main_chunks[1]);
         }
         _ => todo!("Impliment other UI screens"),
     }

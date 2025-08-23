@@ -62,7 +62,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                 continue;
             }
 
-            if key.code == KeyCode::Char('q') {
+            if key.code == KeyCode::Char('q') && app.current_screen != CurrentScreen::SelectProjectName && app.current_screen != CurrentScreen::SelectProjectFolder {
                 return Ok(false);
             }
 
@@ -89,6 +89,46 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                             ProjectTypes::Rust => app.project_type = ProjectTypes::CmakeCpp,
                             ProjectTypes::CmakeCpp => app.project_type = ProjectTypes::Python,
                         }
+                    }
+
+                    if key.code == KeyCode::Enter {
+                        app.current_screen = CurrentScreen::SelectProjectName;
+                    }
+                }
+                CurrentScreen::SelectProjectName => {
+                    match key.code {
+                        KeyCode::Char(c) => {
+                            app.text_input.push(c);
+                        }
+                        KeyCode::Backspace => {
+                            app.text_input.pop();
+                        }
+                        KeyCode::Enter => {
+                            if !app.text_input.is_empty() {
+                                app.project_name = Some(app.text_input.clone());
+                                app.current_screen = CurrentScreen::SelectProjectFolder;
+                                app.text_input.clear();
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                CurrentScreen::SelectProjectFolder => {
+                    match key.code {
+                        KeyCode::Char(c) => {
+                            app.text_input.push(c);
+                        }
+                        KeyCode::Backspace => {
+                            app.text_input.pop();
+                        }
+                        KeyCode::Enter => {
+                            if !app.text_input.is_empty() {
+                                app.project_folder = Some(app.text_input.clone());
+                                app.current_screen = CurrentScreen::CreateProject;
+                                app.text_input.clear();
+                            }
+                        }
+                        _ => {}
                     }
                 }
                 _ => todo!("Impliment other screens"),

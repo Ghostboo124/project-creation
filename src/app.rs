@@ -32,6 +32,8 @@ pub struct App {
     pub project_folder: Option<String>,
     /// The command to be executed (stored as string)
     pub command: Option<String>,
+    /// The text input for the current screen
+    pub text_input: String,
     /// The current screen being displayed
     pub current_screen: CurrentScreen,
 }
@@ -44,6 +46,7 @@ impl App {
             project_name: None,
             project_folder: None,
             command: None,
+            text_input: String::new(),
             current_screen: CurrentScreen::Main,
         }
     }
@@ -51,6 +54,7 @@ impl App {
     pub fn save_project(&mut self) {
         if let Some(project_folder) = &self.project_folder {
             if let Some(project_name) = &self.project_name {
+                #[allow(unused_mut)]
                 let mut command: String;
                 match self.project_type {
                     ProjectTypes::Python => todo!("Impliment Python Project Creation"),
