@@ -1,7 +1,12 @@
 [package]
 name = "project-creation-tui"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2024"
+license-file = "COPYING.txt"
+description = "My TUI for generating different types of projects"
+homepage = "https://github.com/Ghostboo124/project-creation"
+repository = "https://github.com/Ghostboo124/project-creation"
+readme = "README.md"
 
 [dependencies]
 crossterm = "0.29.0"
