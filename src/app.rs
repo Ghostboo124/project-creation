@@ -23,29 +23,19 @@ pub enum CurrentScreen {
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-/// The different types of projects
-/// 
-/// ### Variants
-///  - Python: The project is a Python project
-///  - UvPython: The project is a Python project with UV
-///  - Rust: The project is a Rust project
-///  - CmakeCpp: The project is a C++ project with CMake
+/// The different types of projectse
 pub enum ProjectTypes {
+    /// A python project using the venv package manager
     Python,
+    /// A python project using the uv package manager
     UvPython,
+    /// A rust project using the cargo package manager
     Rust,
+    /// A C++ project using the CMake build system
     CmakeCpp,
 }
 
 /// Struct containing important app data
-/// ### Fields
-///  - current_project: The current project being created
-///  - project_type: The type of project being created
-///  - project_name: The name of the project being created
-///  - project_folder: The folder of the project being created
-///  - command: The command to be executed (stored as string)
-///  - text_input: The text input for the current screen
-///  - current_screen: The current screen being displayed
 pub struct App {
     /// The current project being created
     pub current_project: Option<String>,
