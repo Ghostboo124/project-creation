@@ -1,8 +1,8 @@
 ![hackatime coding time badge](https://hackatime-badge.hackclub.com/U0825U4K39Q/project-creation)
 ![build status](https://img.shields.io/github/actions/workflow/status/Ghostboo124/project-creation/rust.yml?branch=main&event=push)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Ghostboo124/project-creation/total)](https://github.com/Ghostboo124/project-creation/releases/latest)
+![Crates.io Version](https://img.shields.io/crates/v/project-creation-tui)
+![Crates.io Downloads (latest version)](https://img.shields.io/crates/dv/project-creation-tui)
 ![GitHub Repo stars](https://img.shields.io/github/stars/Ghostboo124/project-creation?style=flat)
-![GitHub Release](https://img.shields.io/github/v/release/Ghostboo124/project-creation)
 
 # Project Creation
 
@@ -13,7 +13,7 @@ My TUI for generating different types of projects (python, uv python, rust, cmak
 > [!NOTE]
 > If you are using an operating system that is not Microsoft Windows, then you will need to compile it manually
 
-To use this, you can build it from [source](https://github.com/Ghostboo124/project-creation#building), or you can download it from the [releases page](https://github.com/Ghostboo124/project-creation/releases/latest) then you run the file.
+To use this, you can build it from [source](https://github.com/Ghostboo124/project-creation#building), or you can download it from the [releases page](https://github.com/Ghostboo124/project-creation/releases/latest) then you run the file or you can install it from [crates.io](https://crates.io/crates/project-creation-tui/) with `cargo install project-creation-tui` which installs it and adds it to path.
 
 You will start of in the main menu, press (e) to continue to the project creation,
 then you will be able to select the project type, input the project name and folder for the project to go into and confirm it, at any time other than during project name and folder name inputting you can press (q) to get out and you press (enter) to continue
