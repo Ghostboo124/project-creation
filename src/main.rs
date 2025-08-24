@@ -103,6 +103,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                         }
                         KeyCode::Enter => {
                             if !app.text_input.is_empty() {
+                                app.sanitise_input();
                                 app.project_name = Some(app.text_input.clone());
                                 app.current_screen = CurrentScreen::SelectProjectFolder;
                                 app.text_input.clear();
@@ -121,6 +122,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                         }
                         KeyCode::Enter => {
                             if !app.text_input.is_empty() {
+                                app.sanitise_input();
                                 app.project_folder = Some(app.text_input.clone());
                                 app.current_screen = CurrentScreen::CreateProject;
                                 app.text_input.clear();

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::process::{Command, ExitStatus};
 use std::fmt;
+use regex::Regex;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum CurrentScreen {
@@ -139,6 +140,11 @@ impl App {
         } else {
             -1
         }
+    }
+
+    pub fn sanitise_input(&mut self) {
+        let re = Regex::new(r"[^\w\-]").unwrap();
+        self.text_input = re.replace_all(&self.text_input, "_").to_string();
     }
 }
 
