@@ -28,7 +28,6 @@ pub enum ProjectTypes {
 
 pub fn ui(frame: &mut Frame, app: &App) {
     //    Main page
-    // TODO: Impliment UI, see drawings for reference.
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
@@ -225,7 +224,17 @@ pub fn ui(frame: &mut Frame, app: &App) {
                 }
             }
         }
-        _ => todo!("Impliment other UI screens"),
+        CurrentScreen::ProjectCreated => {
+            let main_area = centred_rect(50, 10, frame.area());
+            let main_text = vec![
+                Line::from(Span::styled("Project created successfully", Style::default().fg(Color::Green))),
+                Line::from(Span::styled("Press any key to continue", Style::default().fg(Color::White))),
+            ];
+            let main_paragraph = Paragraph::new(main_text)
+                .alignment(ratatui::layout::Alignment::Center)
+                .block(Block::default().borders(Borders::NONE));
+            frame.render_widget(main_paragraph, main_area);
+        }
     }
 
 

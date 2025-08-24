@@ -111,23 +111,28 @@ impl App {
     pub fn create_project(&self) -> i32 {
         if let Some(command) = &self.command {
             let command_status = if cfg!(target_os = "windows") {
-                Command::new("powershell").args(&["-Command", command]).status()
+                Command::new("powershell")
+                    .args(&["-Command", command])
+                    .stdout(std::process::Stdio::null())
+                    .stderr(std::process::Stdio::null())
+                    .status()
             } else {
-                Command::new("bash").args(&["-c", command]).status()
+                Command::new("bash")
+                    .args(&["-c", command])
+                    .stdout(std::process::Stdio::null())
+                    .stderr(std::process::Stdio::null())
+                    .status()
             };
 
             match command_status {
                 Ok(status) => {
                     if status.success() {
-                        println!("Project created successfully");
                         0
                     } else {
-                        println!("Error: Command failed with exit code {}", status.code().unwrap_or(-1));
                         status.code().unwrap_or(-1)
                     }
                 }
                 Err(_) => {
-                    println!("Error: Failed to create project");
                     -1
                 }
             }

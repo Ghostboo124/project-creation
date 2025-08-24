@@ -13,13 +13,11 @@
 use std::{error::Error, io};
 
 use ratatui::{
-    Terminal,
-    backend::{Backend, CrosstermBackend},
-    crossterm::{
+    backend::{Backend, CrosstermBackend}, crossterm::{
         event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind},
         execute,
-        terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
-    },
+        terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    }, Terminal
 };
 
 mod app;
@@ -138,7 +136,13 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                         app.current_screen = CurrentScreen::ProjectCreated;
                     }
                 }
-                _ => todo!("Impliment other screens"),
+                CurrentScreen::ProjectCreated => {
+                    match key.code {
+                        _ => {
+                            app.current_screen = CurrentScreen::Main;
+                        }
+                    }
+                }
             }
         }
     }
