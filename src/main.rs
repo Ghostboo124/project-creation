@@ -51,6 +51,38 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Runs the main terminal UI event loop, drawing the UI and updating `app` in response to user input.
+///
+/// This function drives the application's state machine: it repeatedly draws the UI to `terminal`,
+/// reads keyboard events, and mutates `app` (screen, inputs, project data) according to the current
+/// `CurrentScreen`. It also triggers project persistence and creation when the flow reaches
+/// `CreateProject`.
+///
+/// Important behaviors:
+/// - Pressing 'q' will exit the loop (returns `Ok(false`) unless the user is currently entering a
+///   project name or folder (those screens ignore 'q').
+/// - While on text-entry screens (`SelectProjectName`, `SelectProjectFolder`) printable characters
+///   are appended to `app.text_input`, Backspace removes the last character, and Enter will
+///   sanitise and commit the input if non-empty, advancing the flow.
+/// - On `CreateProject`, Enter calls `app.save_project()` and `app.create_project()` and advances to
+///   `ProjectCreated`.
+/// - The function returns an `io::Result<bool>` to surface terminal I/O errors; the returned `bool`
+///   signals whether the app requested to exit (calling code treats `false` as "quit").
+///
+/// Parameters:
+/// - `terminal`: the TUI terminal used for drawing (mutated for each frame).
+/// - `app`: the application state to update in response to events.
+///
+/// # Examples
+///
+/// ```no_run
+/// use ratatui::Terminal;
+/// // create terminal and app appropriately...
+/// // let mut terminal: Terminal<...> = ...;
+/// // let mut app = App::new();
+/// // run the UI loop (propagates I/O errors)
+/// // let _ = run_app(&mut terminal, &mut app);
+/// ```
 fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<bool> {
     loop {
         terminal.draw(|f| ui(f, app))?;

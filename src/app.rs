@@ -109,6 +109,29 @@ impl App {
         }
     }
 
+    /// Execute the prepared shell command stored in `self.command` and return its exit status.
+    ///
+    /// If `self.command` is `None` this returns -1. When a command is present it is executed
+    /// via `powershell -Command <command>` on Windows or `bash -c <command>` on other platforms.
+    /// Standard output and standard error from the child process are discarded.
+    ///
+    /// Returns:
+    /// - `0` if the child process exited successfully,
+    /// - the child's exit code if it exited with a non-zero status and an exit code is available,
+    /// - `-1` if the command failed to spawn/execute or if no command was set.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let mut app = crate::App::new();
+    /// app.command = Some(if cfg!(target_os = "windows") {
+    ///     "exit 0".into()
+    /// } else {
+    ///     "exit 0".into()
+    /// });
+    /// let code = app.create_project();
+    /// assert_eq!(code, 0);
+    /// ```
     pub fn create_project(&self) -> i32 {
         if let Some(command) = &self.command {
             let command_status = if cfg!(target_os = "windows") {
@@ -142,6 +165,19 @@ impl App {
         }
     }
 
+    /// Replace any character in `self.text_input` that is not a word character or a hyphen with an underscore.
+    ///
+    /// This mutates the `App` in place by updating its `text_input` field. Useful for producing
+    /// filesystem- and identifier-safe strings (letters, digits, underscore, and `-` are preserved).
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let mut app = crate::App::new();
+    /// app.text_input = "My Project!@# Name".into();
+    /// app.sanitise_input();
+    /// assert_eq!(app.text_input, "My_Project___Name");
+    /// ```
     pub fn sanitise_input(&mut self) {
         let re = Regex::new(r"[^\w\-]").unwrap();
         self.text_input = re.replace_all(&self.text_input, "_").to_string();
