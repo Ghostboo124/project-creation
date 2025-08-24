@@ -65,6 +65,9 @@ pub fn ui(frame: &mut Frame, app: &App) {
             CurrentScreen::SelectProjectName => Span::styled(
                 "(enter) continue",
                 Style::default().fg(Color::LightBlue)),
+            CurrentScreen::SelectProjectFolder => Span::styled(
+                "(enter) continue",
+                Style::default().fg(Color::LightBlue)),
             _ => Span::styled(
                 "(q) quit / (enter) continue",
                 Style::default().fg(Color::LightBlue)),
@@ -93,8 +96,8 @@ pub fn ui(frame: &mut Frame, app: &App) {
             frame.render_widget(main_paragraph, main_area);
         }
         CurrentScreen::SelectProjectType => {
-            let project_type_area = centred_rect(10, 50, chunks[0]);
-            let project_type_chunks = Layout::default()
+            let main_area = centred_rect(10, 50, chunks[0]);
+            let main_chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .constraints([
                     Constraint::Length(3),
@@ -102,7 +105,7 @@ pub fn ui(frame: &mut Frame, app: &App) {
                     Constraint::Length(3),
                     Constraint::Length(3),
                 ])
-                .split(project_type_area);
+                .split(main_area);
 
             let python_text = Paragraph::new(Span::styled(
                 "Python",
@@ -150,10 +153,10 @@ pub fn ui(frame: &mut Frame, app: &App) {
                 });
 
             // Render text widgets normally
-            frame.render_widget(python_text, project_type_chunks[0]);
-            frame.render_widget(uv_python_text, project_type_chunks[1]);
-            frame.render_widget(rust_text, project_type_chunks[2]);
-            frame.render_widget(cmake_cpp_text, project_type_chunks[3]);
+            frame.render_widget(python_text, main_chunks[0]);
+            frame.render_widget(uv_python_text, main_chunks[1]);
+            frame.render_widget(rust_text, main_chunks[2]);
+            frame.render_widget(cmake_cpp_text, main_chunks[3]);
         }
         CurrentScreen::SelectProjectName => {
             let main_area = centred_rect(40, 15, chunks[0]);
@@ -204,6 +207,23 @@ pub fn ui(frame: &mut Frame, app: &App) {
             ))
                 .block(Block::default().borders(Borders::ALL));
             frame.render_widget(text_input_paragraph, main_chunks[1]);
+        }
+        CurrentScreen::CreateProject => {
+            let main_area = centred_rect(20, 50, chunks[0]);
+            if let Some(project_name) = &app.project_name {
+                if let Some(project_folder) = &app.project_folder {
+                    let lines = vec![
+                        Line::from(Span::styled(format!("Project Type: {}", app.project_type), Style::default().fg(Color::White))),
+                        Line::from(Span::styled(format!("Project Name: {}", project_name), Style::default().fg(Color::White))),
+                        Line::from(Span::styled(format!("Project Folder: {}", project_folder), Style::default().fg(Color::White))),
+                        Line::from(Span::styled("Press (enter) to confirm these settings", Style::default().fg(Color::White))),
+                    ];
+                    let main_paragraph = Paragraph::new(lines)
+                        .alignment(ratatui::layout::Alignment::Center)
+                        .block(Block::default().borders(Borders::NONE));
+                    frame.render_widget(main_paragraph, main_area);
+                }
+            }
         }
         _ => todo!("Impliment other UI screens"),
     }

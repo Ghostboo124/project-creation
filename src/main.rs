@@ -131,6 +131,13 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                         _ => {}
                     }
                 }
+                CurrentScreen::CreateProject => {
+                    if key.code == KeyCode::Enter {
+                        app.save_project();
+                        app.create_project();
+                        app.current_screen = CurrentScreen::ProjectCreated;
+                    }
+                }
                 _ => todo!("Impliment other screens"),
             }
         }
