@@ -1,6 +1,6 @@
 [package]
 name = "project-creation-tui"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
 license-file = "COPYING.txt"
 description = "My TUI for generating different types of projects"
@@ -10,6 +10,7 @@ readme = "README.md"
 
 [[bin]]
 name = "create-project"
+path = "src/main.rs"
 test = false
 bench = false
 
