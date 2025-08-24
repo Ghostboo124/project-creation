@@ -51,7 +51,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<bool> {
+/// A function to run the app
+/// ### Parameters
+///  - terminal: The terminal to run the app on
+///  - app: The app to run
+/// 
+/// ### Returns
+///  - A boolean representing if the app should return successfully
+pub fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<bool> {
     loop {
         terminal.draw(|f| ui(f, app))?;
 
@@ -149,13 +156,3 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
         }
     }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
-//     #[test]
-//     fn test() {
-//         assert_eq!(1, 1);
-//     }
-// }

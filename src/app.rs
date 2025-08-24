@@ -4,6 +4,15 @@ use std::fmt;
 use regex::Regex;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
+/// The different screens of the app
+/// 
+/// ### Variants
+///  - Main: The main screen of the app
+///  - SelectProjectType: The screen to select the project type
+///  - SelectProjectName: The screen to select the project name
+///  - SelectProjectFolder: The screen to select the project folder
+///  - CreateProject: The screen to create the project
+///  - ProjectCreated: The screen to show the project created
 pub enum CurrentScreen {
     Main,
     SelectProjectType,
@@ -13,8 +22,14 @@ pub enum CurrentScreen {
     ProjectCreated,
 }
 
-/// All the different types of projects
 #[derive(Clone, Copy, PartialEq, Eq)]
+/// The different types of projects
+/// 
+/// ### Variants
+///  - Python: The project is a Python project
+///  - UvPython: The project is a Python project with UV
+///  - Rust: The project is a Rust project
+///  - CmakeCpp: The project is a C++ project with CMake
 pub enum ProjectTypes {
     Python,
     UvPython,
@@ -23,6 +38,14 @@ pub enum ProjectTypes {
 }
 
 /// Struct containing important app data
+/// ### Fields
+///  - current_project: The current project being created
+///  - project_type: The type of project being created
+///  - project_name: The name of the project being created
+///  - project_folder: The folder of the project being created
+///  - command: The command to be executed (stored as string)
+///  - text_input: The text input for the current screen
+///  - current_screen: The current screen being displayed
 pub struct App {
     /// The current project being created
     pub current_project: Option<String>,
@@ -53,6 +76,7 @@ impl App {
         }
     }
 
+    /// Save the current project's command to the struct
     pub fn save_project(&mut self) {
         if let Some(project_folder) = &self.project_folder {
             if let Some(project_name) = &self.project_name {
@@ -109,6 +133,7 @@ impl App {
         }
     }
 
+    /// Create the project from the command in the struct
     pub fn create_project(&self) -> i32 {
         if let Some(command) = &self.command {
             let command_status = if cfg!(target_os = "windows") {
@@ -142,6 +167,7 @@ impl App {
         }
     }
 
+    /// Sanitise the current user input to prevent arbitrary command execution
     pub fn sanitise_input(&mut self) {
         let re = Regex::new(r"[^\w\-]").unwrap();
         self.text_input = re.replace_all(&self.text_input, "_").to_string();

@@ -8,24 +8,11 @@ use ratatui::{
 
 use crate::app::{App, CurrentScreen, ProjectTypes};
 
-/*
-pub enum CurrentScreen {
-    Main,
-    SelectProjectType,
-    SelectProjectName,
-    SelectProjectFolder,
-    CreateProject,
-    ProjectCreated,
-}
-
-pub enum ProjectTypes {
-    Python,
-    UvPython,
-    Rust,
-    CmakeCpp,
-}
-*/
-
+/// The UI for the app
+/// 
+/// ### Parameters
+///  - frame: The frame to render the UI on
+///  - app: The app to render the UI for
 pub fn ui(frame: &mut Frame, app: &App) {
     //    Main page
     let chunks = Layout::default()
@@ -240,6 +227,15 @@ pub fn ui(frame: &mut Frame, app: &App) {
 
 }
 
+/// Creates a centred rectangle
+/// 
+/// ### Parameters
+///  - percent_x: The percentage of the width of the rectangle
+///  - percent_y: The percentage of the height of the rectangle
+///  - r: The rectangle to create the centred rectangle from
+/// 
+/// ### Returns
+///  - The centred rectangle
 fn centred_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
     // Cut the given rect into three vertical pieces
     let popup_layout = Layout::default()
