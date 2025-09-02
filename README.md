@@ -10,7 +10,7 @@ My TUI for generating different types of projects (python, uv python, rust, cmak
 
 ## Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BvbK70bw50U?si=pW9IDg7G5RKGs8mX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+![demo video](https://www.youtube.com/embed/BvbK70bw50U?si=pW9IDg7G5RKGs8mX)
 
 ## Usage
 
