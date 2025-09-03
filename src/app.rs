@@ -3,7 +3,7 @@ use std::process::{Command, ExitStatus};
 use std::fmt;
 use regex::Regex;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 /// The different screens of the app
 /// 
 /// ### Variants
