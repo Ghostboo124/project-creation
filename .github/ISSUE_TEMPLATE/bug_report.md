@@ -21,13 +21,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Linux, Windows]
- - Browser [e.g. firefox, zen]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. Samsung Galaxy S9]
- - OS: [e.g. Android 9]
- - Browser [e.g. firefox nightly, opera mini]
  - Version [e.g. 22]
 
 **Additional context**
