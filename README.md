@@ -10,7 +10,7 @@ My TUI for generating different types of projects (python, uv python, rust, cmak
 
 ## Demo
 
-![demo video](https://www.youtube.com/embed/BvbK70bw50U?si=pW9IDg7G5RKGs8mX)
+[demo video](https://youtu.be/BvbK70bw50U?si=Ex_fxpPrY7a8anHy)
 
 ## Usage
 
