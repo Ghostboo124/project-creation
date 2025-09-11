@@ -14,9 +14,6 @@ My TUI for generating different types of projects (python, uv python, rust, cmak
 
 ## Usage
 
-> [!NOTE]
-> If you are using an operating system that is not Microsoft Windows, then you will need to compile it manually
-
 To use this, you can build it from [source](https://github.com/Ghostboo124/project-creation#building), or you can download it from the [releases page](https://github.com/Ghostboo124/project-creation/releases/latest) then you run the file or you can install it from [crates.io](https://crates.io/crates/project-creation-tui/) with `cargo install project-creation-tui` which installs it and adds it to path.
 
 You will start of in the main menu, press (e) to continue to the project creation,
